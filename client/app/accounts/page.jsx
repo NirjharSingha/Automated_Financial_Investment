@@ -1,90 +1,102 @@
+"use client";
+
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+// import { MdEdit, MdDelete } from "react-icons/md";
+import { AddAccount } from "../components/AddAccount";
+import Toast from "../components/Toast";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
-import React from "react";
+import React, { useRef } from "react";
+import { useState } from "react";
 
 const Accounts = () => {
+  const allAccounts = [
+    {
+      accountId: "addgnbgfhghtre1",
+      bankId: "afgdhfjkhkm1",
+    },
+    {
+      accountId: "addgnbgfhghtre2",
+      bankId: "afgdhfjkhkm2",
+    },
+    {
+      accountId: "addgnbgfhghtre3",
+      bankId: "afgdhfjkhkm3",
+    },
+    {
+      accountId: "addgnbgfhghtre4",
+      bankId: "afgdhfjkhkm4",
+    },
+    {
+      accountId: "addgnbgfhghtre5",
+      bankId: "afgdhfjkhkm5",
+    },
+    {
+      accountId: "addgnbgfhghtre6",
+      bankId: "afgdhfjkhkm6",
+    },
+    {
+      accountId: "addgnbgfhghtre7",
+      bankId: "afgdhfjkhkm7",
+    },
+  ];
+  const [accounts, setAccounts] = useState(allAccounts);
+  const [showToast, setShowToast] = useState(false);
+  const toastRef = useRef(null);
+
+  const handleAddAccount = (accountId, bankId) => {
+    setAccounts([...accounts, { accountId, bankId }]);
+    // toast("Event has been created.");
+    toastRef && toastRef.current && toastRef.current.click();
+  };
+
   return (
-    <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
-            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-            <TableCell>{invoice.paymentStatus}</TableCell>
-            <TableCell>{invoice.paymentMethod}</TableCell>
-            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+    <div
+      className="absolute top-[4rem] left-[13rem] w-full overflow-x-hidden overflow-y-auto"
+      style={{
+        maxWidth: "calc(100vw - 13rem)",
+        maxHeight: "calc(100svh - 4rem)",
+      }}
+    >
+      <div style={{ display: "none" }}>
+        <Toast title={"Account added successfully."} toastRef={toastRef} />
+      </div>
+      <div className="flex mt-4 mb-4 w-full pl-7 pr-7 items-center justify-between">
+        <p className="font-serif font-bold text-xl">Your Accounts</p>
+        <AddAccount handler={handleAddAccount} setShowToast={setShowToast} />
+      </div>
+      <Table>
+        <TableCaption>A list of your accounts.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[120px] text-center">Serial No</TableHead>
+            <TableHead className="text-center">Account ID</TableHead>
+            <TableHead className="text-center">Bank ID</TableHead>
+            {/* <TableHead className="text-center">Options</TableHead> */}
           </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {accounts.map((account, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-medium text-center">{index}</TableCell>
+              <TableCell className="text-center">{account.accountId}</TableCell>
+              <TableCell className="text-center">{account.bankId}</TableCell>
+              {/* <TableCell className="flex w-full justify-center text-lg">
+                <MdEdit className="text-blue-600 mr-2" />
+                <MdDelete className="text-red-500" />
+              </TableCell> */}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

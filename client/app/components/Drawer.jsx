@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { useGlobals } from "../contexts/Globals";
+import Link from "next/link";
 
 const Drawer = () => {
   const { setShowProfile, isLoggedIn, selected, setSelected } = useGlobals();
@@ -12,17 +15,19 @@ const Drawer = () => {
         boxShadow: "3px 0 5px rgba(0, 0, 0, 0.3)",
       }}
     >
-      <button
-        className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
-        style={
-          selected === "home" ? { backgroundColor: "rgb(2, 164, 251)" } : {}
-        }
-        onClick={() => {
-          setSelected("home");
-        }}
-      >
-        Home
-      </button>
+      <Link href="/">
+        <button
+          className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
+          style={
+            selected === "home" ? { backgroundColor: "rgb(2, 164, 251)" } : {}
+          }
+          onClick={() => {
+            setSelected("home");
+          }}
+        >
+          Home
+        </button>
+      </Link>
       {isLoggedIn && (
         <>
           <button
@@ -39,45 +44,51 @@ const Drawer = () => {
           >
             Profile
           </button>
-          <button
-            className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
-            onClick={() => {
-              setSelected("accounts");
-            }}
-            style={
-              selected === "accounts"
-                ? { backgroundColor: "rgb(2, 164, 251)" }
-                : {}
-            }
-          >
-            Accounts
-          </button>
-          <button
-            className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
-            onClick={() => {
-              setSelected("bills");
-            }}
-            style={
-              selected === "bills"
-                ? { backgroundColor: "rgb(2, 164, 251)" }
-                : {}
-            }
-          >
-            Bills
-          </button>
-          <button
-            className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
-            onClick={() => {
-              setSelected("investments");
-            }}
-            style={
-              selected === "investments"
-                ? { backgroundColor: "rgb(2, 164, 251)" }
-                : {}
-            }
-          >
-            Investments
-          </button>
+          <Link href="/accounts">
+            <button
+              className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
+              onClick={() => {
+                setSelected("accounts");
+              }}
+              style={
+                selected === "accounts"
+                  ? { backgroundColor: "rgb(2, 164, 251)" }
+                  : {}
+              }
+            >
+              Accounts
+            </button>
+          </Link>
+          <Link href="/bills">
+            <button
+              className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
+              onClick={() => {
+                setSelected("bills");
+              }}
+              style={
+                selected === "bills"
+                  ? { backgroundColor: "rgb(2, 164, 251)" }
+                  : {}
+              }
+            >
+              Bills
+            </button>
+          </Link>
+          <Link href="/investments">
+            <button
+              className="w-full pl-1 pr-1 mb-3 truncate rounded-lg bg-blue-300 h-[3rem] hover:bg-blue-400 text-white font-bold font-serif"
+              onClick={() => {
+                setSelected("investments");
+              }}
+              style={
+                selected === "investments"
+                  ? { backgroundColor: "rgb(2, 164, 251)" }
+                  : {}
+              }
+            >
+              Investments
+            </button>
+          </Link>
         </>
       )}
     </div>

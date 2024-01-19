@@ -56,7 +56,7 @@ const NavBar = () => {
             />
           )}
           {showDrawer && <Drawer />} */}
-          <Drawer />
+          {/* <Drawer /> */}
           <div className="bg-yellow-50 p-[0.35rem] flex justify-center items-center mr-2 rounded-full border-2 border-solid border-white">
             <Image src={FinanceIcon} alt="logo" width={30} />
           </div>
