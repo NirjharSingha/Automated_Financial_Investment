@@ -55,12 +55,16 @@ const Accounts = () => {
       balance: 300000,
     },
   ];
-  const { accounts, setAccounts } = useGlobals();
+  const { accounts, setAccounts, shouldFetchAccount, setShouldFetchAccount } =
+    useGlobals();
   const toastRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
-    setAccounts(allAccounts);
+    if (shouldFetchAccount) {
+      setAccounts(allAccounts);
+      setShouldFetchAccount(false);
+    }
   }, []);
 
   const handleAddAccount = (accountId, bankId, balance) => {

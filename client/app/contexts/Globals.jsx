@@ -10,10 +10,11 @@ export function useGlobals() {
 
 const GlobalsProvider = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState(2000);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
   const [selected, setSelected] = useState("");
   const [accounts, setAccounts] = useState([]);
+  const [shouldFetchAccount, setShouldFetchAccount] = useState(true);
 
   return (
     <GlobalsContext.Provider
@@ -28,6 +29,8 @@ const GlobalsProvider = ({ children }) => {
         setSelected,
         accounts,
         setAccounts,
+        shouldFetchAccount,
+        setShouldFetchAccount,
       }}
     >
       {children}

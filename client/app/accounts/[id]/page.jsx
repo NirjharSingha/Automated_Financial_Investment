@@ -124,17 +124,17 @@ const page = ({ params }) => {
   }, [toastMessage]);
 
   const handleEditAccount = (accountId, bankId, balance) => {
-    setAccount({ accountId, bankId, balance });
     setToastMessage("Account edited successfully.");
     setAccounts((prev) => {
       const updatedAccounts = [...prev];
       const index = updatedAccounts.findIndex(
-        (account) =>
-          account.accountId === accountId && account.bankId === bankId
+        (acc) =>
+          account.accountId === acc.accountId && account.bankId === acc.bankId
       );
       updatedAccounts[index] = { accountId, bankId, balance };
       return updatedAccounts;
     });
+    setAccount({ accountId, bankId, balance });
   };
 
   return (
@@ -252,7 +252,6 @@ const page = ({ params }) => {
                   acc.accountId !== account.accountId &&
                   acc.bankId !== account.bankId
               );
-              console.log(updatedAccounts);
               return updatedAccounts;
             });
             setToastMessage("Account deleted successfully.");
