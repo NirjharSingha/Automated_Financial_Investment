@@ -13,45 +13,40 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { MdEdit } from "react-icons/md";
 
-export function AddAccount({
+export function AddMonthlyInvest({
   handler = () => {},
   isEdit = false,
-  account = { accountId: "", bankId: "", balance: 0 },
+  investment = { name: "", amount: 0 },
   index = 0,
 }) {
-  const [accountId, setAccountId] = useState("");
-  const [bankId, setBankId] = useState("");
-  const [balance, setBalance] = useState(0);
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
   return (
     <Dialog>
       <DialogTrigger asChild>
         {!isEdit ? (
           <button
-            className="btn btn-primary font-bold"
+            className="h-[2.3rem] pl-4 pr-4 rounded-lg bg-slate-400 text-white font-serif font-bold hover:bg-slate-500"
             onClick={() => {
               setShowDialog(true);
-              setAccountId("");
-              setBankId("");
-              setBalance(0);
+              setName("");
+              setAmount(0);
             }}
           >
-            Add New Account
+            Add
           </button>
         ) : (
-          <button
-            type="button"
-            className="rounded-lg h-[2.5rem] pl-4 pr-4 text-white truncate font-bold font-serif bg-blue-400 hover:bg-blue-500"
+          <MdEdit
+            className="text-blue-600 mr-2 cursor-pointer"
             onClick={() => {
               setShowDialog(true);
-              setAccountId(account.accountId);
-              setBankId(account.bankId);
-              setBalance(account.balance);
+              setName(investment.name);
+              setAmount(investment.amount);
             }}
-          >
-            Edit Account
-          </button>
+          />
         )}
       </DialogTrigger>
       {showDialog && (
@@ -59,47 +54,34 @@ export function AddAccount({
           <DialogHeader>
             <DialogTitle>Add Account</DialogTitle>
             <DialogDescription>
-              Enter your account details. Click save when you're done.
+              Enter your investment details. Click save when you're done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="accountId" className="text-right">
-                Account ID
+                Name
               </Label>
               <Input
                 id="accountId"
-                value={accountId}
+                value={name}
                 className="col-span-3"
                 onChange={(e) => {
-                  setAccountId(e.target.value);
+                  setName(e.target.value);
                 }}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="bankId" className="text-right">
-                Bank ID
+              <Label htmlFor="amount" className="text-right">
+                Amount
               </Label>
               <Input
-                id="bankId"
-                value={bankId}
-                className="col-span-3"
-                onChange={(e) => {
-                  setBankId(e.target.value);
-                }}
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="balance" className="text-right">
-                Balance
-              </Label>
-              <Input
-                id="balance"
+                id="amount"
                 type="number"
-                value={balance}
+                value={amount}
                 className="col-span-3"
                 onChange={(e) => {
-                  setBalance(e.target.value);
+                  setAmount(e.target.value);
                 }}
               />
             </div>
@@ -107,7 +89,8 @@ export function AddAccount({
           <DialogFooter>
             <Button
               onClick={() => {
-                handler(accountId, bankId, balance);
+                if (!isEdit) handler(name, amount);
+                else handler(index, name, amount);
                 setShowDialog(false);
               }}
             >

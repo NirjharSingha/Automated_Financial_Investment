@@ -12,7 +12,8 @@ const GlobalsProvider = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState(2000);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [selected, setSelected] = useState("home");
+  const [selected, setSelected] = useState("");
+  const [accounts, setAccounts] = useState([]);
 
   return (
     <GlobalsContext.Provider
@@ -25,6 +26,8 @@ const GlobalsProvider = ({ children }) => {
         setShowProfile,
         selected,
         setSelected,
+        accounts,
+        setAccounts,
       }}
     >
       {children}

@@ -9,51 +9,62 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import { MdEdit, MdDelete } from "react-icons/md";
 import { AddAccount } from "../components/AddAccount";
 import Toast from "../components/Toast";
+import { useRouter } from "next/navigation";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
+import { useGlobals } from "../contexts/Globals";
 
 const Accounts = () => {
   const allAccounts = [
     {
       accountId: "addgnbgfhghtre1",
       bankId: "afgdhfjkhkm1",
+      balance: 100000,
     },
     {
       accountId: "addgnbgfhghtre2",
       bankId: "afgdhfjkhkm2",
+      balance: 200000,
     },
     {
       accountId: "addgnbgfhghtre3",
       bankId: "afgdhfjkhkm3",
+      balance: 300000,
     },
     {
       accountId: "addgnbgfhghtre4",
       bankId: "afgdhfjkhkm4",
+      balance: 200000,
     },
     {
       accountId: "addgnbgfhghtre5",
       bankId: "afgdhfjkhkm5",
+      balance: 500000,
     },
     {
       accountId: "addgnbgfhghtre6",
       bankId: "afgdhfjkhkm6",
+      balance: 600000,
     },
     {
       accountId: "addgnbgfhghtre7",
       bankId: "afgdhfjkhkm7",
+      balance: 300000,
     },
   ];
-  const [accounts, setAccounts] = useState(allAccounts);
-  const [showToast, setShowToast] = useState(false);
+  const { accounts, setAccounts } = useGlobals();
   const toastRef = useRef(null);
+  const router = useRouter();
 
-  const handleAddAccount = (accountId, bankId) => {
-    setAccounts([...accounts, { accountId, bankId }]);
-    // toast("Event has been created.");
+  useEffect(() => {
+    setAccounts(allAccounts);
+  }, []);
+
+  const handleAddAccount = (accountId, bankId, balance) => {
+    setAccounts([...accounts, { accountId, bankId, balance }]);
     toastRef && toastRef.current && toastRef.current.click();
   };
 
@@ -70,7 +81,7 @@ const Accounts = () => {
       </div>
       <div className="flex mt-4 mb-4 w-full pl-7 pr-7 items-center justify-between">
         <p className="font-serif font-bold text-xl">Your Accounts</p>
-        <AddAccount handler={handleAddAccount} setShowToast={setShowToast} />
+        <AddAccount handler={handleAddAccount} />
       </div>
       <Table>
         <TableCaption>A list of your accounts.</TableCaption>
@@ -79,19 +90,25 @@ const Accounts = () => {
             <TableHead className="w-[120px] text-center">Serial No</TableHead>
             <TableHead className="text-center">Account ID</TableHead>
             <TableHead className="text-center">Bank ID</TableHead>
-            {/* <TableHead className="text-center">Options</TableHead> */}
+            <TableHead className="text-center">Balance</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {accounts.map((account, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium text-center">{index}</TableCell>
+            <TableRow
+              key={index}
+              onClick={() => {
+                const string = `${account.accountId}_concat_${account.bankId}_concat_${account.balance}`;
+                router.push(`/accounts/${string}`);
+              }}
+              className="cursor-pointer hover:bg-gray-200"
+            >
+              <TableCell className="font-medium text-center">
+                {index + 1}
+              </TableCell>
               <TableCell className="text-center">{account.accountId}</TableCell>
               <TableCell className="text-center">{account.bankId}</TableCell>
-              {/* <TableCell className="flex w-full justify-center text-lg">
-                <MdEdit className="text-blue-600 mr-2" />
-                <MdDelete className="text-red-500" />
-              </TableCell> */}
+              <TableCell className="text-center">{account.balance}</TableCell>
             </TableRow>
           ))}
         </TableBody>
