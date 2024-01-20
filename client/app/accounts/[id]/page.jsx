@@ -18,6 +18,8 @@ import Toast from "@/app/components/Toast";
 import { AddAccount } from "@/app/components/AddAccount";
 import { useGlobals } from "@/app/contexts/Globals";
 import { useRouter } from "next/navigation";
+import BarChart from "@/app/components/charts/BarChart";
+import Doughnut from "@/app/components/charts/Doughnut";
 
 const page = ({ params }) => {
   const { id } = params;
@@ -92,8 +94,17 @@ const page = ({ params }) => {
       amount: 5000,
     },
   ];
-
   const [investments, setInvestments] = useState(investmentAll);
+  const investmentNames = investments.map((investment) => investment.name);
+  const investmentAmounts = investments.map((investment) => investment.amount);
+
+  const [investNames, setInvestNames] = useState(investmentNames);
+  const [investAmounts, setInvestAmounts] = useState(investmentAmounts);
+
+  useEffect(() => {
+    setInvestNames(investmentNames);
+    setInvestAmounts(investmentAmounts);
+  }, [investments]);
 
   const handleAddInvest = (name, amount) => {
     setInvestments((prev) => [...prev, { name, amount }]);
@@ -236,6 +247,18 @@ const page = ({ params }) => {
           </TableRow>
         </TableFooter>
       </Table>
+      <div className="pl-2 pr-2 mt-8 mb-4 w-[80%] m-auto">
+        <BarChart allLabels={investNames} allData={investAmounts} />
+        <p className="w-full text-center font-serif mt-3 font-bold text-gray-700">
+          A bar chart of your monthly investments.
+        </p>
+      </div>
+      <div className="pl-2 pr-2 mt-8 mb-4 w-[60%] m-auto">
+        <Doughnut allLabels={investNames} allData={investAmounts} />
+        <p className="w-full text-center font-serif mt-3 font-bold text-gray-700">
+          A doughnut chart of your monthly investments.
+        </p>
+      </div>
       <div className="flex mt-4 w-full pl-4 pr-4 items-center justify-between">
         <AddAccount
           handler={handleEditAccount}
