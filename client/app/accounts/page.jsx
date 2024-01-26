@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useGlobals } from "../contexts/Globals";
+import accountDao from "../db/dao/accountDao";
 
 const Accounts = () => {
   const allAccounts = [
@@ -61,13 +62,18 @@ const Accounts = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const fetchAccounts = async () => {
+      const accounts = await accountDao.getAll();
+      setAccounts(accounts);
+    };
     if (shouldFetchAccount) {
-      setAccounts(allAccounts);
+      fetchAccounts();
       setShouldFetchAccount(false);
     }
   }, []);
 
-  const handleAddAccount = (accountId, bankId, balance) => {
+  const handleAddAccount = async (accountId, bankId, balance) => {
+    await accountDao.add({ accountId, bankId, balance });
     setAccounts([...accounts, { accountId, bankId, balance }]);
     toastRef && toastRef.current && toastRef.current.click();
   };

@@ -74,6 +74,7 @@ export function AddAccount({
                 onChange={(e) => {
                   setAccountId(e.target.value);
                 }}
+                disabled={isEdit}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">

@@ -20,6 +20,7 @@ import { useGlobals } from "@/app/contexts/Globals";
 import { useRouter } from "next/navigation";
 import BarChart from "@/app/components/charts/BarChart";
 import Doughnut from "@/app/components/charts/Doughnut";
+import billDao from "../db/dao/billDao";
 
 const page = () => {
   const [toastMessage, setToastMessage] = useState("");
@@ -78,28 +79,39 @@ const page = () => {
       date: "2024-02-15",
     },
   ];
-  const [bills, setBills] = useState(allBills);
+  const [bills, setBills] = useState([]);
 
-  const handleAddBill = (billId, name, accountId) => {
+  useEffect(() => {
+    const fetchBillls = async () => {
+      const bills = await billDao.getAll();
+      setBills(bills);
+    };
+    fetchBillls();
+  }, []);
+
+  const handleAddBill = async (billId, name, accountId) => {
     setBills((prev) => [...prev, { billId, name, accountId }]);
+    await billDao.add({ billId, name, accountId });
     setToastMessage("Bill added successfully.");
   };
 
-  const handleEditBill = (billId, name, accountId) => {
+  const handleEditBill = async (billId, name, accountId) => {
     setBills((prev) => {
       const updatedBills = [...prev];
       const index = updatedBills.findIndex((bill) => bill.billId === billId);
       updatedBills[index] = { billId, name, accountId };
       return updatedBills;
     });
+    await billDao.update({ billId, name, accountId });
     setToastMessage("Bill edited successfully.");
   };
 
-  const handleDeleteBill = (billId) => {
+  const handleDeleteBill = async (billId) => {
     setBills((prev) => {
       const updatedBills = prev.filter((bill) => bill.billId !== billId);
       return updatedBills;
     });
+    await billDao.delete(billId);
     setToastMessage("Bill deleted successfully.");
   };
 

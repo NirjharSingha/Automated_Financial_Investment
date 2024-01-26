@@ -20,6 +20,7 @@ import { useGlobals } from "@/app/contexts/Globals";
 import { useRouter } from "next/navigation";
 import BarChart from "@/app/components/charts/BarChart";
 import Doughnut from "@/app/components/charts/Doughnut";
+import accountDao from "@/app/db/dao/accountDao";
 
 const page = ({ params }) => {
   const { id } = params;
@@ -145,6 +146,7 @@ const page = ({ params }) => {
       updatedAccounts[index] = { accountId, bankId, balance };
       return updatedAccounts;
     });
+    accountDao.update({ accountId, bankId, balance }, account.accountId);
     setAccount({ accountId, bankId, balance });
   };
 
@@ -278,6 +280,7 @@ const page = ({ params }) => {
               return updatedAccounts;
             });
             setToastMessage("Account deleted successfully.");
+            accountDao.delete(account.accountId);
             router.push("/accounts");
           }}
         >
