@@ -4,7 +4,7 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import { Chart } from "chart.js/auto";
 
-const BarChart = ({ allLabels, allData }) => {
+const LineChart = ({ allLabels, allData }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const BarChart = ({ allLabels, allData }) => {
       }
       const context = chartRef.current.getContext("2d");
       const newChart = new Chart(context, {
-        type: "bar",
+        type: "line",
         data: {
           labels: allLabels,
           datasets: [
@@ -43,18 +43,7 @@ const BarChart = ({ allLabels, allData }) => {
             },
           ],
         },
-        options: {
-          scales: {
-            x: {
-              type: "category",
-            },
-            y: {
-              min: 0,
-              beginAtZero: true,
-              stepSize: 1000,
-            },
-          },
-        },
+        options: {},
       });
 
       chartRef.current.chart = newChart;
@@ -68,4 +57,4 @@ const BarChart = ({ allLabels, allData }) => {
   );
 };
 
-export default BarChart;
+export default LineChart;
